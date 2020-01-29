@@ -4,40 +4,42 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float velocity;
+    public float movementSpeed;
+    public float rotationSpeed;
 
-    private Rigidbody2D rig;
+    private Vector3 direction;
+    private Vector3 moveDirection;
+    private Vector3 previousPosition;
 
     private void Start()
     {
-        rig = GetComponent<Rigidbody2D>();
+        previousPosition = transform.position;
     }
 
     private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.LeftArrow))
+        this.HandleMovement();
+    }
+
+    private void HandleMovement()
+    {
+        float horizontalMove = Input.GetAxisRaw("Horizontal");
+        float verticalMove = Input.GetAxisRaw("Vertical");
+
+        direction = new Vector3(horizontalMove, verticalMove, 0f);
+        moveDirection = transform.position - previousPosition;
+
+
+        if (moveDirection != Vector3.zero)
         {
-            rig.velocity = new Vector2(-velocity * Time.deltaTime, rig.velocity.y);
+            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+
+            Quaternion newRotation = Quaternion.AngleAxis((angle), Vector3.forward);
+            transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, 1.0f);
         }
-        else
-        {
-            rig.velocity = new Vector2(0, rig.velocity.y);
-        }
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            rig.velocity = new Vector2(velocity * Time.deltaTime, rig.velocity.y);
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            rig.velocity = new Vector2(rig.velocity.x, velocity * Time.deltaTime);
-        }
-        else
-        {
-            rig.velocity = new Vector2(rig.velocity.x, 0);
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            rig.velocity = new Vector2(rig.velocity.x, -velocity * Time.deltaTime);
-        }
+
+        previousPosition = transform.position;
+        transform.Translate(direction * movementSpeed * Time.deltaTime, Space.World);
+
     }
 }
