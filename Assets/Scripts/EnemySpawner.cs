@@ -14,16 +14,16 @@ public class EnemySpawner : MonoBehaviour
     private void Update()
     {
         spawnTimer += Time.deltaTime;
-        Debug.Log(spawnTimer);
 
         if (spawnTimer >= spawnRate)
         {
-            Debug.Log(123);
             Transform currentSpawner = spawners[Random.Range(0, spawners.Count)].GetComponent<Transform>();
             GameObject currentEnemy = enemies[Random.Range(0, enemies.Count)];
 
-            Instantiate(portalSprite, currentSpawner.position, currentSpawner.rotation);
+            GameObject createdPortal = Instantiate(portalSprite, currentSpawner.position, currentSpawner.rotation);
             Instantiate(currentEnemy, currentSpawner.position, currentSpawner.rotation);
+
+            Destroy(createdPortal, 1f);
 
             spawnTimer = 0;
         }
