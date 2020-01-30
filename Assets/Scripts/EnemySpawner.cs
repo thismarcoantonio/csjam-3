@@ -17,15 +17,20 @@ public class EnemySpawner : MonoBehaviour
 
         if (spawnTimer >= spawnRate)
         {
-            Transform currentSpawner = spawners[Random.Range(0, spawners.Count)].GetComponent<Transform>();
-            GameObject currentEnemy = enemies[Random.Range(0, enemies.Count)];
-
-            GameObject createdPortal = Instantiate(portalSprite, currentSpawner.position, currentSpawner.rotation);
-            Instantiate(currentEnemy, currentSpawner.position, currentSpawner.rotation);
-
-            Destroy(createdPortal, 1f);
-
-            spawnTimer = 0;
+            HandleSpawn();
         }
+    }
+
+    private void HandleSpawn()
+    {
+        Transform currentSpawner = spawners[Random.Range(0, spawners.Count)].GetComponent<Transform>();
+        GameObject currentEnemy = enemies[Random.Range(0, enemies.Count)];
+
+        GameObject createdPortal = Instantiate(portalSprite, currentSpawner.position, currentSpawner.rotation);
+        Instantiate(currentEnemy, currentSpawner.position, currentSpawner.rotation);
+
+        Destroy(createdPortal, 1f);
+
+        spawnTimer = 0;
     }
 }
