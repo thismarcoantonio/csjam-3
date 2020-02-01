@@ -14,15 +14,25 @@ public class Player : MonoBehaviour
     private Vector3 previousPosition;
     private GameObject primaryGun;
     private GameObject secondaryGun;
+    private Animator animator;
 
     private void Start()
     {
         previousPosition = transform.position;
+        animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
-        HandleMovement();
+        if (Input.GetAxisRaw("Horizontal") != 0f || Input.GetAxisRaw("Vertical") != 0f)
+        {
+            HandleMovement();
+            animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
+        }
     }
 
     private void HandleMovement()
@@ -35,7 +45,7 @@ public class Player : MonoBehaviour
 
         if (moveDirection != Vector3.zero)
         {
-            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg - 90f;
+            float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg + 90f;
 
             Quaternion newRotation = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, 1.0f);
