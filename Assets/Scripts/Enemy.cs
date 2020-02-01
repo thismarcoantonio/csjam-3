@@ -34,4 +34,19 @@ public class Enemy : MonoBehaviour
     {
         rb.MovePosition((Vector2)transform.position + (direction * movementSpeed * Time.deltaTime));
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            GameController.Instance.RemoveLife(10);
+            Destroy(gameObject);
+        }
+
+        if (collision.gameObject.CompareTag("Projectile"))
+        {
+            GameController.Instance.AddScore(1);
+            Destroy(gameObject);
+        }
+    }
 }
