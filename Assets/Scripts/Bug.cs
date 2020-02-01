@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bug : MonoBehaviour
 {
     public float movementSpeed;
+    public GameObject currentWeapon; 
 
     private Transform player;
     private Rigidbody2D rb;
@@ -28,5 +29,15 @@ public class Bug : MonoBehaviour
     {
         rb.rotation = rotation;
         rb.MovePosition((Vector2)transform.position + (direction * movementSpeed * Time.deltaTime));
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Player playerInstance = collision.gameObject.GetComponent<Player>();
+            playerInstance.HandleNewGun(currentWeapon);
+            Destroy(gameObject);
+        }
     }
 }
