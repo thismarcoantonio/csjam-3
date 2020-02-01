@@ -28,5 +28,7 @@ public class Shooting : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, weaponSlot.position, weaponSlot.rotation);
         Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
         rb.AddForce(weaponSlot.up * projectileForce, ForceMode2D.Impulse);
+
+        AudioController.Instance.PlaySound(AudioController.Instance.weaponRifle);
     }
 }

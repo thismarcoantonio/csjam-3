@@ -41,12 +41,16 @@ public class Enemy : MonoBehaviour
         {
             GameController.Instance.RemoveLife(10);
             Destroy(gameObject);
+
+            AudioController.Instance.PlaySound(AudioController.Instance.enemyDeath);
         }
 
         if (collision.gameObject.CompareTag("Projectile"))
         {
             GameController.Instance.AddScore(1);
             Destroy(gameObject);
+
+            AudioController.Instance.PlaySound(AudioController.Instance.enemyDeath);
         }
     }
 }
