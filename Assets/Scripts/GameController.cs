@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour
 
     public void AddScore(int amount)
     {
-        if (temporaryScore < scoreValue)
+        if (temporaryScore < scoreValue - 1)
         {
             temporaryScore += amount;
             float totalValue = (float)((temporaryScore * 100) / scoreValue * 0.01);
